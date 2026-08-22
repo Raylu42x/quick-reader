@@ -15,3 +15,6 @@ DerivedData/
 .swiftpm/
 .build/
 Packages/
+
+# Internal launch/commercial assessment — not for public consumption
+LAUNCH.md

@@ -177,14 +177,10 @@ struct ContentView: View {
                 defer { if didAccess { url.stopAccessingSecurityScopedResource() } }
                 if let content = try? String(contentsOf: url, encoding: .utf8) {
                     let title = url.deletingPathExtension().lastPathComponent
-                    if var doc = store.activeDocument {
-                        doc.title = title
-                        doc.content = content
-                        doc.sentenceIndex = 0
-                        store.activeDocument = doc
-                    } else {
-                        store.addDocument(title: title, content: content)
-                    }
+                    // Import always creates a new document. Overwriting the active
+                    // one silently destroyed its text and left its bookmark pointing
+                    // at a sentence index in content that no longer existed.
+                    store.addDocument(title: title, content: content)
                     synthesizer.stopSpeaking(at: .immediate)
                     playbackState = .stopped
                     currentSentenceIndex = 0
